@@ -106,7 +106,7 @@ namespace NinetiesTV
         // 11. Return the names of the shows that had fewer than 100 episodes.
         static List<string> FewEpisodes(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows.Where(show => show.EpisodeCount < 100).Select(show => show.Name).ToList();
         }
 
         // 12. Return all shows ordered by the number of years on air.
