@@ -216,14 +216,20 @@ namespace NinetiesTV
         }
 
         // 3. Print the years 1987 - 2018 along with the number of shows that started in each year (note many years will have zero shows)
+        static void NumberOfShowsPerYear(List<Show> shows)
+        {
+            var groupedShows = shows.GroupBy(show => show.StartYear).Select(group => new { Key = group.Key, Count = group.Count() }).OrderBy(group => group.Key);
+            Console.WriteLine();
+            foreach (var result in groupedShows)
+            {
+                Console.WriteLine(result.Key + ": " + result.Count);
+            }
+            Console.WriteLine();
+        }
 
         // 4. Assume each episode of a comedy is 22 minutes long and each episode of a show that isn't a comedy is 42 minutes. How long would it take to watch every episode of each show?
         static int HowLongToWatchEverything(List<Show> shows)
         {
-            var comedyShows = shows.Where(show => show.Genres.Contains("Comedy")).ToList();
-
-            var nonComedyShows = shows.Where(show => !show.Genres.Contains("Comedy")).ToList();
-
             return shows.Where(show => show.Genres.Contains("Comedy")).Sum(show => show.EpisodeCount * 22) + shows.Where(show => !show.Genres.Contains("Comedy")).Sum(show => show.EpisodeCount * 42);
         }
 
