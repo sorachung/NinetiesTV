@@ -82,7 +82,7 @@ namespace NinetiesTV
         // 7. Return the shows that started and ended in the 90s.
         static List<Show> OnlyInNineties(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows.Where(show => show.StartYear >= 1990 && show.EndYear < 2000).ToList();
         }
 
         // 8. Return the top three highest rated shows.
