@@ -125,7 +125,7 @@ namespace NinetiesTV
         // 14. Return the shows with more than one genre ordered by their starting year.
         static List<Show> WithMultipleGenresByStartYear(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows.Where(show => show.Genres.Count > 1).OrderBy(show => show.StartYear).ToList();
         }
 
         // 15. Return the show with the most episodes.
