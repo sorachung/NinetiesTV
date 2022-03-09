@@ -224,9 +224,7 @@ namespace NinetiesTV
 
             var nonComedyShows = shows.Where(show => !show.Genres.Contains("Comedy")).ToList();
 
-            int howLong = comedyShows.Sum(show => show.EpisodeCount * 22) + nonComedyShows.Sum(show => show.EpisodeCount * 42);
-
-            return howLong;
+            return shows.Where(show => show.Genres.Contains("Comedy")).Sum(show => show.EpisodeCount * 22) + shows.Where(show => !show.Genres.Contains("Comedy")).Sum(show => show.EpisodeCount * 42);
         }
 
         // 5. Assume each show ran each year between its start and end years (which isn't true), which year had the highest average IMDB rating.
