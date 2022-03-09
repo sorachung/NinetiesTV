@@ -138,7 +138,7 @@ namespace NinetiesTV
         //     show that ended on or after the year 2000.
         static Show EndedFirstAfterTheMillennium(List<Show> shows)
         {
-            throw new NotImplementedException();
+            return shows.OrderBy(show => show.EndYear).FirstOrDefault(show => show.EndYear >= 2000);
         }
 
         // 17. Order the shows by rating (highest first) 
