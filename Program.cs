@@ -175,22 +175,7 @@ namespace NinetiesTV
         // 21. Return the show with the most words in the name.
         static Show WordieastName(List<Show> shows)
         {
-            return shows.OrderByDescending(show => NumberOfWordsInString(show.Name)).ToList()[0];
-
-        }
-
-        static int NumberOfWordsInString(string str)
-        {
-            int a = 0, myWord = 1;
-            while (a <= str.Length - 1)
-            {
-                if (str[a] == ' ' || str[a] == '\n' || str[a] == '\t')
-                {
-                    myWord++;
-                }
-                a++;
-            }
-            return myWord;
+            return shows.OrderByDescending(show => show.Name.Split(" ").ToList().Count).First();
         }
 
         // 22. Return the names of all shows as a single string seperated by a comma and a space.
