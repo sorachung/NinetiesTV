@@ -241,7 +241,7 @@ namespace NinetiesTV
 
         // 5. Assume each show ran each year between its start and end years (which isn't true), which year had the highest average IMDB rating.
 
-        static int HighestRatingYear(List<Show> shows)
+        static Dictionary<int, double> HighestRatingYear(List<Show> shows)
         {
             var minYear = shows.Min(show => show.StartYear);
             var maxYear = shows.Max(show => show.EndYear);
@@ -252,8 +252,8 @@ namespace NinetiesTV
             {
                 years[item.Key] = shows.Where(s => s.StartYear <= item.Key && s.EndYear >= item.Key).Average(s => s.ImdbRating);
             }
-
-            return years.OrderByDescending(item => item.Value).FirstOrDefault().Key;
+            var maxValue = years.Max(item => item.Value);
+            return years.Where(item => item.Value == maxValue).ToDictionary(item => item.Key, item => item.Value);
         }
 
 
@@ -285,6 +285,17 @@ namespace NinetiesTV
         }
 
         static void Print(string title, Dictionary<int, int> dict)
+        {
+            PrintHeaderText(title);
+            foreach (var item in dict)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
+
+            Console.WriteLine();
+        }
+
+        static void Print(string title, Dictionary<int, double> dict)
         {
             PrintHeaderText(title);
             foreach (var item in dict)
