@@ -41,6 +41,7 @@ namespace NinetiesTV
             Print("Number of shows per year", NumberOfShowsPerYear(shows));
 
             Print("How long it takes to watch everything, in minutes", HowLongToWatchEverything(shows));
+            Print("The year with the highest average rating", HighestRatingYear(shows));
         }
 
         /**************************************************************************************************
@@ -239,6 +240,21 @@ namespace NinetiesTV
         }
 
         // 5. Assume each show ran each year between its start and end years (which isn't true), which year had the highest average IMDB rating.
+
+        static int HighestRatingYear(List<Show> shows)
+        {
+            var minYear = shows.Min(show => show.StartYear);
+            var maxYear = shows.Max(show => show.EndYear);
+
+            var years = Enumerable.Range(minYear, maxYear - minYear).ToDictionary(year => year, year => 0.0);
+
+            foreach (var item in years)
+            {
+                years[item.Key] = shows.Where(s => s.StartYear <= item.Key && s.EndYear >= item.Key).Average(s => s.ImdbRating);
+            }
+
+            return years.OrderByDescending(item => item.Value).FirstOrDefault().Key;
+        }
 
 
 
