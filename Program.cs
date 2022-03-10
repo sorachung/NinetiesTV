@@ -34,8 +34,11 @@ namespace NinetiesTV
             Print("All Names", AllNamesWithCommas(shows));
             Print("All Names with And", AllNamesWithCommasPlsAnd(shows));
 
+            // challenges
             Print("Genres of Shows that Started in the 80s", GenresOfShowsStart80s(shows));
             Print("Unique Genres", GenresOfShowsUnique(shows));
+
+            Print("Number of shows per year", NumberOfShowsPerYear(shows));
 
             Print("How long it takes to watch everything, in minutes", HowLongToWatchEverything(shows));
         }
@@ -216,15 +219,17 @@ namespace NinetiesTV
         }
 
         // 3. Print the years 1987 - 2018 along with the number of shows that started in each year (note many years will have zero shows)
-        static void NumberOfShowsPerYear(List<Show> shows)
+        static Dictionary<int, int> NumberOfShowsPerYear(List<Show> shows)
         {
-            var groupedShows = shows.GroupBy(show => show.StartYear).Select(group => new { Key = group.Key, Count = group.Count() }).OrderBy(group => group.Key);
-            Console.WriteLine();
-            foreach (var result in groupedShows)
+            var years = Enumerable.Range(1987, 32).ToList();
+
+            var groupedShowsByYear = years.GroupJoin(shows, year => year, show => show.StartYear, (year, showCollection) => new
             {
-                Console.WriteLine(result.Key + ": " + result.Count);
-            }
-            Console.WriteLine();
+                Key = year,
+                showCount = showCollection.Count()
+            }).ToDictionary(group => group.Key, group => group.showCount);
+
+            return groupedShowsByYear;
         }
 
         // 4. Assume each episode of a comedy is 22 minutes long and each episode of a show that isn't a comedy is 42 minutes. How long would it take to watch every episode of each show?
@@ -258,6 +263,17 @@ namespace NinetiesTV
             foreach (string str in strings)
             {
                 Console.WriteLine(str);
+            }
+
+            Console.WriteLine();
+        }
+
+        static void Print(string title, Dictionary<int, int> dict)
+        {
+            PrintHeaderText(title);
+            foreach (var item in dict)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
             }
 
             Console.WriteLine();
